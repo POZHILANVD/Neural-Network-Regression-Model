@@ -12,6 +12,8 @@ Explain the problem statement
 
 Include the neural network model diagram.
 
+![image](https://github.com/user-attachments/assets/81fc6451-8e15-4581-9f90-9dd7c073c191)
+
 ## DESIGN STEPS
 
 ### STEP 1:
@@ -43,40 +45,58 @@ Plot the performance plot
 Evaluate the model with the testing data.
 
 ## PROGRAM
-### Name:
-### Register Number:
+### Name:POZHILAN V D
+### Register Number:212223240118
 ```python
 class NeuralNet(nn.Module):
-    def __init__(self):
-        super().__init__()
-        #Include your code here
+  def __init__(self):
+    super().__init__()
+    self.fc1 = nn.Linear(1, 8)
+    self.fc2 = nn.Linear(8, 10)
+    self.fc3 = nn.Linear(10, 1)
+    self.relu = nn.ReLU()
+    self.history = {'loss': []} 
 
-
-
+  def forward(self, x):
+    x = self.relu(self.fc1(x))
+    x = self.relu(self.fc2(x))
+    x = self.fc3(x)  
+    return x
 # Initialize the Model, Loss Function, and Optimizer
-
+ai_brain = NeuralNet()
+criterion = nn.MSELoss()
+optimizer = optim.RMSprop(ai_brain.parameters(), lr=0.001)
 
 
 def train_model(ai_brain, X_train, y_train, criterion, optimizer, epochs=2000):
-    #Include your code here
+  for epoch in range(epochs):
+    optimizer.zero_grad()
+  
+    output = ai_brain(X_train)
+    loss = criterion(output, y_train)
+    loss.backward()
+    optimizer.step()
 
+    ai_brain.history['loss'].append(loss.item())
+    if epoch % 200 == 0:
+      print(f'Epoch [{epoch}/{epochs}], Loss: {loss.item():.6f}')
+
+train_model(ai_brain, X_train_tensor, y_train_tensor, criterion, optimizer)
 
 
 ```
 ## Dataset Information
 
-Include screenshot of the dataset
+![image](https://github.com/user-attachments/assets/e1e96450-8f19-4a6f-a900-c65a50da45bf)
 
 ## OUTPUT
 
 ### Training Loss Vs Iteration Plot
 
-Include your plot here
+![image](https://github.com/user-attachments/assets/82b00306-c933-4227-91ab-8a7a62433b1d)
 
 ### New Sample Data Prediction
-
-Include your sample input and output here
+![image](https://github.com/user-attachments/assets/79ae32d7-a9ea-426c-a2d6-30071f2f90cb)
 
 ## RESULT
-
-Include your result here
+The neural network regression model was successfully trained and evaluated. The model demonstrated strong predictive performance on unseen data, with a low error rate.
